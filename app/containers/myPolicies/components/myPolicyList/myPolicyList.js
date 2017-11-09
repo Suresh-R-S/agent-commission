@@ -2,11 +2,9 @@ import React,{Component} from 'react';
 import {View, FlatList} from 'react-native';
 import { Container, Content, Text } from "native-base";
 import Header from '../../../../components/header';
-import styles from './styles';
-import ListData from '../../../../constants/policyListData';
 import ListItem from '../policyListItem';
-import firebaseApp from '../../../../services/firebase';
-import Loader from '../../../../components/loader'
+import Loader from '../../../../components/loader';
+import styles from './styles';
 
 
 class MyPolicyList extends Component{
@@ -41,6 +39,7 @@ class MyPolicyList extends Component{
     }
     else{
       return(
+        <View style={styles.listContainer}>
         <FlatList
           data = {this.props.listData}
           keyExtractor={(item)=>item.id}
@@ -53,6 +52,7 @@ class MyPolicyList extends Component{
             />
           }
           />
+        </View>
       )
     }
   }

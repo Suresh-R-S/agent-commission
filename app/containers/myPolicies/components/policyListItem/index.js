@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import styles from './styles';
 import moment from 'moment';
+import colors from '../../../../constants/colors';
+
 
 const ListItem = (props) => {
 

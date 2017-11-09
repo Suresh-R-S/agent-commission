@@ -1,28 +1,21 @@
-import React,{Component} from 'react';
-import { Container, Header, Title, Button , Left, Icon, Right, Body, Content,Text } from "native-base";
+import {connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as myCommissionListActions  from './action';
+import MyCommissionList from './components/myCommissionList/myCommissionList';
 
 
-export default class MyCommission extends Component{
-  render(){
-    return(
-      <Container>
-        <Header>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}>
-              <Icon name="menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>My Commission</Title>
-          </Body>
-          <Right />
-        </Header>
-        <Content padder>
-          <Text>My commission report here!</Text>
-        </Content>
-      </Container>
-    )
+function moveStateToProps(state){
+  return {
+    fetching : state.myCommissionList.fetching,
+    searchYear : state.myCommissionList.searchYear,
+    listData : state.myCommissionList.data
+  };
+}
+
+function matchDispatchToProps(dispatch){
+  return {
+    actions : bindActionCreators(myCommissionListActions, dispatch)
   }
 }
+
+export default connect(moveStateToProps, matchDispatchToProps)(MyCommissionList);
