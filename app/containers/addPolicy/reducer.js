@@ -6,6 +6,7 @@ export default function(state={
 	singlePremium:false,
 	premiumModeValue:0,
 	selectedDate:moment.utc().valueOf(),
+	confirmationModalOpen : false
 },action){
 	switch(action.type){
 		case actionTypes.CHANGE_SINGLE_PREMIUM_VALUE : {
@@ -25,6 +26,9 @@ export default function(state={
 		}
 		case actionTypes.SAVE_POLICY_FORM_FAILURE : {
 			return {...state,fetching : false};
+		}
+		case actionTypes.CHANGE_CONFIRMATION_MODAL_STATUS : {
+			return {...state,confirmationModalOpen : action.payload};
 		}
 		default : return state;
 	}

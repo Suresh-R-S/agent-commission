@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Container, Button, Item, Input ,Icon, Right, Body, Content,Text } from "native-base";
-import { View, FlatList } from 'react-native';
+import { View, FlatList, NetInfo, Alert } from 'react-native';
 import moment from 'moment';
 import TotalCommission from '../totalCommission/totalCommission';
 import CommissionListItem from '../commissionListItem/commissionListItem';
@@ -17,7 +17,28 @@ export default class MyCommission extends Component{
   }
 
   componentDidMount(){
-    this.props.actions.fetchMyCommissionList(moment().format('YYYY'));
+    this.callCommissionListFunction();
+  }
+
+  callCommissionListFunction = () => {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if(isConnected)
+        this.props.actions.fetchMyCommissionList(this.props.searchYear);
+      else {
+        this.callNetworkErrorFunction();
+      }
+    });
+  }
+
+  callNetworkErrorFunction = () => {
+    Alert.alert(
+      'No Internet Connection',
+      'Kindly, check your connection and try again.',
+      [
+        {text: 'Try Again', onPress: () => this.callCommissionListFunction()}
+      ],
+      { cancelable: false }
+    )
   }
 
   renderHeader = () => {
