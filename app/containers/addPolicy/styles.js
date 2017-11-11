@@ -65,6 +65,40 @@ const styles = StyleSheet.create({
   },
   datePickerContainer : {
     height : 60
+  },
+  container : {
+    height : '100%',
+    backgroundColor : colors.black,
+    opacity : 0.5,
+  },
+  modalOuterContainer : {
+    position : 'absolute',
+    marginLeft : '5%',
+    marginRight : '5%',
+    top : '5%'
+  },
+  modalContainer : {
+    backgroundColor : colors.white,
+    width : 320,
+    height : 500,
+    padding : 10
+  },
+  modalDetails : {
+    marginTop : 20
+  },
+  modalIndividualDetails : {
+    marginBottom : 10
+  },
+  label : {
+    color : colors.labelGrey
+  },
+  closeButtonContainer : {
+    height : 20
+  },
+  closeButton : {
+    position : 'absolute',
+    fontSize : 15,
+    right : 5
   }
 });
 

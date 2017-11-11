@@ -5,7 +5,7 @@ export default function(state={
 	fetching:false,
 	data:{},
 	activeItem : {},
-	searchYear: moment().format('YYYY')
+	searchYear: '2015'
 },action){
 	switch(action.type){
 		case actionTypes.MY_COMMISSION_LIST_START : {

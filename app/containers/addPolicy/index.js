@@ -9,7 +9,9 @@ function moveStateToProps(state){
     fetching : state.addPolicy.fetching,
     singlePremium : state.addPolicy.singlePremium,
     premiumModeValue : state.addPolicy.premiumModeValue,
-    selectedDate  : state.addPolicy.selectedDate
+    selectedDate  : state.addPolicy.selectedDate,
+    confirmationModalOpen : state.addPolicy.confirmationModalOpen,
+    currentFormValue : state.form.addPolicyForm
   };
 }
 

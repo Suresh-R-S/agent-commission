@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View, FlatList} from 'react-native';
+import {View, FlatList, NetInfo, Alert} from 'react-native';
 import { Container, Content, Text } from "native-base";
 import Header from '../../../../components/header';
 import ListItem from '../policyListItem';
@@ -15,7 +15,28 @@ class MyPolicyList extends Component{
   }
 
   componentDidMount(){
-    this.props.actions.fetchMyPolicyList();
+    this.callPolicyListFunction();
+  }
+
+  callPolicyListFunction = () => {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if(isConnected)
+        this.props.actions.fetchMyPolicyList();
+      else {
+        this.callNetworkErrorFunction();
+      }
+    });
+  }
+
+  callNetworkErrorFunction = () => {
+    Alert.alert(
+      'No Internet Connection',
+      'Kindly, check your connection and try again.',
+      [
+        {text: 'Try Again', onPress: () => this.callPolicyListFunction()}
+      ],
+      { cancelable: false }
+    )
   }
 
   renderHeader = () => {

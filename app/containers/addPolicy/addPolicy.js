@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
-import {View, DatePickerAndroid, TouchableHighlight} from 'react-native';
+import {View, DatePickerAndroid, TouchableHighlight, Modal, ScrollView, NetInfo, Alert} from 'react-native';
 import { Container, Icon , Body, Content, Text, Input, Item, Label, Picker , Button , CheckBox, Spinner } from "native-base";
 import Header from '../../components/header';
 import premiumModes from '../../constants/premiumModeOptions';
+import { policyConfirmation } from '../../constants/textUsed';
 import { reduxForm , Field } from 'redux-form';
 import styles from './styles';
 import moment from 'moment';
@@ -112,6 +113,82 @@ class AddPolicy extends Component{
     )
   }
 
+  individualFieldDetails = (label,value) => {
+    return(
+      <View style={styles.modalIndividualDetails}>
+        <Text style={styles.label}>{label}:</Text>
+        <Text>{value}</Text>
+      </View>
+    )
+  }
+
+  renderConfirmationModal = () => {
+    return(
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.props.confirmationModalOpen}
+        onRequestClose={() => this.props.actions.confirmationModalToggle(false)}
+        >
+        <View>
+        <TouchableHighlight style={styles.container} onPress={() => this.props.actions.confirmationModalToggle(false)}><View/></TouchableHighlight>
+        <View style={styles.modalOuterContainer}>
+            <View style={styles.modalContainer}>
+              <View style={styles.closeButtonContainer}>
+                <Icon style={styles.closeButton} onPress={() => this.props.actions.confirmationModalToggle(false)} name="md-close-circle"/>
+              </View>
+              <Text>{policyConfirmation}</Text>
+              { this.props.currentFormValue &&
+              <ScrollView style={styles.modalDetails}>
+                {this.individualFieldDetails('Date of joining',moment(this.props.currentFormValue.values.date).format('DD/MM/YYYY'))}
+                {this.individualFieldDetails('Policy No',this.props.currentFormValue.values.policy_no)}
+                {this.individualFieldDetails('Policy Holder',this.props.currentFormValue.values.name)}
+                {this.individualFieldDetails('Plan',this.props.currentFormValue.values.plan)}
+                {this.individualFieldDetails('Sum Assured',`Rs. ${this.props.currentFormValue.values.sum}`)}
+                {this.individualFieldDetails('Term',`${this.props.currentFormValue.values.term} years`)}
+                {this.individualFieldDetails('Premium',`Rs. ${this.props.currentFormValue.values.premiumAmount}`)}
+                {this.individualFieldDetails('Single Premium',JSON.stringify(this.props.currentFormValue.values.singlePremium))}
+                {!this.props.currentFormValue.values.singlePremium && this.individualFieldDetails('Premium Mode',premiumModes[this.props.currentFormValue.values.premiumMode].label)}
+                {this.individualFieldDetails('1st year commission',`${this.props.currentFormValue.values.commission1} %`)}
+                {!this.props.currentFormValue.values.singlePremium && this.individualFieldDetails('2nd and 3rd year commission',`${this.props.currentFormValue.values.commission2} %`)}
+                {!this.props.currentFormValue.values.singlePremium && this.individualFieldDetails('3+ year commission',`${this.props.currentFormValue.values.commissionRest} %`)}
+              </ScrollView>
+              }
+              <Button style={styles.saveButton} onPress={() =>
+                { this.props.actions.confirmationModalToggle(false);
+                  this.savePolicyFormFunction();
+                }
+              } primary>
+                <Text>Confirm</Text>
+              </Button>
+           </View>
+         </View>
+        </View>
+      </Modal>
+    )
+  }
+
+  savePolicyFormFunction = () => {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if(isConnected)
+        this.props.actions.savePolicyForm(this.props.currentFormValue.values);
+      else {
+        this.callNetworkErrorFunction();
+      }
+    });
+  }
+
+  callNetworkErrorFunction = () => {
+    Alert.alert(
+      'No Internet Connection',
+      'Kindly, check your connection and try again.',
+      [
+        {text: 'Try Again', onPress: () => this.savePolicyFormFunction()}
+      ],
+      { cancelable: false }
+    )
+  }
+
   onCheckboxValueChange = (input) => {
     let currentStatus = this.props.singlePremium;
     this.props.actions.changeSinglePremiumStatus(!currentStatus);
@@ -133,6 +210,10 @@ class AddPolicy extends Component{
     } catch ({code, message}) {
       console.warn(`Error in example '${stateKey}': `, message);
     }
+  }
+
+  openConfirmationModal = () => {
+    this.props.actions.confirmationModalToggle(true);
   }
 
   render(){
@@ -165,11 +246,12 @@ class AddPolicy extends Component{
           </View>
           {
             !this.props.fetching ?
-            <Button disabled = {pristine || submitting} style={(pristine || submitting) ? styles.disabledSaveButton : styles.saveButton} onPress={this.props.handleSubmit(this.props.actions.savePolicyForm)} primary>
+            <Button disabled = {pristine || submitting} style={(pristine || submitting) ? styles.disabledSaveButton : styles.saveButton} onPress={this.props.handleSubmit(this.openConfirmationModal)} primary>
               <Text>Save</Text>
             </Button> :
             <Spinner color='blue' />
           }
+          {this.renderConfirmationModal()}
         </Content>
       </Container>
     )
@@ -200,6 +282,9 @@ const validate = (values,props) => {
   else if(isNaN(values.term)){
     errors.term = 'Expected a number'
   }
+  else if(values.term < 1 || values.term > 35){
+    errors.term = 'Invalid term. Please enter a value between 1 & 35'
+  }
 
   if (!values.sum) {
     errors.sum = 'Please enter the sum assured for the policy'
@@ -221,6 +306,9 @@ const validate = (values,props) => {
   else if(isNaN(values.commission1)){
     errors.commission1 = 'Expected a number'
   }
+  else if(values.commission1 > 100){
+    errors.commission1 = 'Invalid commission rate'
+  }
 
   if(!values.commission2 && !props.singlePremium) {
     errors.commission2 = 'Please enter the commission rate'
@@ -228,12 +316,18 @@ const validate = (values,props) => {
   else if(isNaN(values.commission2) && !props.singlePremium){
     errors.commission2 = 'Expected a number'
   }
+  else if(values.commission2 > 100 && !props.singlePremium){
+    errors.commission1 = 'Invalid commission rate'
+  }
 
   if(!values.commissionRest && !props.singlePremium) {
     errors.commissionRest = 'Please enter the commission rate'
   }
   else if(isNaN(values.commissionRest) && !props.singlePremium){
     errors.commissionRest = 'Expected a number'
+  }
+  else if(values.commissionRest > 100 && !props.singlePremium){
+    errors.commission1 = 'Invalid commission rate'
   }
 
   return errors

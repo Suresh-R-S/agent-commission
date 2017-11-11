@@ -45,3 +45,10 @@ export function changePolicyDate(newDate){
     payload : newDate
   }
 }
+
+export function confirmationModalToggle(value){
+  return {
+    type : actionTypes.CHANGE_CONFIRMATION_MODAL_STATUS,
+    payload : value
+  }
+}
