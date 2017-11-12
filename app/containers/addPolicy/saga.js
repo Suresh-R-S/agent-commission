@@ -33,10 +33,10 @@ function addPolicyFormToFirebase(dataToSend){
 export function* calculateAndCreateCommission(action){
   let initialMonthFlag = false;
   var termMonthNotEnded = true;
-  let singlePremiumNotSettled = action.payload.single_premium;
+  var singlePremiumNotSettled = action.payload.single_premium;
 
   let startingYear = parseInt(moment(action.payload.date_of_joining).format('YYYY'));
-  let startingMonth = moment(action.payload.date_of_joining).format('MM');
+  var startingMonth = moment(action.payload.date_of_joining).format('MM');
   let endingYear = action.payload.single_premium ? startingYear + 1 : startingYear + parseInt(action.payload.insurance_term) + 1;
   let monthArray = ['01','02','03','04','05','06','07','08','09','10','11','12'];
   let yearRange = _.range(startingYear, endingYear);
@@ -47,7 +47,7 @@ export function* calculateAndCreateCommission(action){
     fetchListFromFirebase(`myCommission/${yearItem}`,true).then((yearData) => {
       const yearObj = _.clone(yearData);
       _.each(monthArray,(monthItem) => {
-        if(monthItem == moment(action.payload.date_of_joining).format('MM')){
+        if(monthItem == startingMonth){
           initialMonthFlag = true;
         }
 
