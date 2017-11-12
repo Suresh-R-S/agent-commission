@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   policyDate : {
     flex : 1,
     color : colors.white,
-    fontSize : 12
+    fontSize : 10
   },
   policyName : {
     color : colors.white,
