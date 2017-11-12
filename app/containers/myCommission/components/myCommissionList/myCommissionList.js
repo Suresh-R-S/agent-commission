@@ -20,6 +20,10 @@ export default class MyCommission extends Component{
     this.callCommissionListFunction();
   }
 
+  componentWillUnmount(){
+    this.props.actions.searchYearDataChanged('2015');
+  }
+
   callCommissionListFunction = () => {
     NetInfo.isConnected.fetch().then(isConnected => {
       if(isConnected)
