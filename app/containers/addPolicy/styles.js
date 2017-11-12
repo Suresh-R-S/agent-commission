@@ -72,15 +72,12 @@ const styles = StyleSheet.create({
     opacity : 0.5,
   },
   modalOuterContainer : {
-    position : 'absolute',
-    marginLeft : '5%',
-    marginRight : '5%',
-    top : '5%'
+    position : 'absolute'
   },
   modalContainer : {
     backgroundColor : colors.white,
-    width : 320,
-    height : 500,
+    width : '100%',
+    height : '80%',
     padding : 10
   },
   modalDetails : {
@@ -93,11 +90,11 @@ const styles = StyleSheet.create({
     color : colors.labelGrey
   },
   closeButtonContainer : {
-    height : 20
+    height : 30
   },
   closeButton : {
     position : 'absolute',
-    fontSize : 15,
+    fontSize : 25,
     right : 5
   }
 });
