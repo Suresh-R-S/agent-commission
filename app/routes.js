@@ -23,9 +23,9 @@ const CommissionSection = StackNavigator(
 
 const Router = DrawerNavigator(
   {
+    AddPolicy : { screen: AddPolicy },
     MyPolicies: { screen: PolicyList },
     MyCommission: { screen: CommissionSection },
-    AddPolicy : { screen: AddPolicy },
   },
   {
     contentComponent: props => <SideMenu {...props} />

@@ -67,17 +67,12 @@ const styles = StyleSheet.create({
     height : 60
   },
   container : {
-    height : '100%',
-    backgroundColor : colors.black,
-    opacity : 0.5,
-  },
-  modalOuterContainer : {
-    position : 'absolute'
+    flex : 1,
   },
   modalContainer : {
     backgroundColor : colors.white,
     width : '100%',
-    height : '70%',
+    height : '100%',
     padding : 10
   },
   modalDetails : {
