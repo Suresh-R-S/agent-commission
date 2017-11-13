@@ -126,14 +126,13 @@ class AddPolicy extends Component{
     return(
       <Modal
         animationType="slide"
-        transparent={true}
+        transparent={false}
         visible={this.props.confirmationModalOpen}
         onRequestClose={() => this.props.actions.confirmationModalToggle(false)}
         >
         <View>
         <TouchableHighlight style={styles.container} onPress={() => this.props.actions.confirmationModalToggle(false)}><View/></TouchableHighlight>
-        <View style={styles.modalOuterContainer}>
-            <View style={styles.modalContainer}>
+        <View style={styles.modalContainer}>
               <View style={styles.closeButtonContainer}>
                 <Icon style={styles.closeButton} onPress={() => this.props.actions.confirmationModalToggle(false)} name="md-close-circle"/>
               </View>
@@ -162,7 +161,6 @@ class AddPolicy extends Component{
                 <Text>Confirm</Text>
               </Button>
            </View>
-         </View>
         </View>
       </Modal>
     )
