@@ -43,6 +43,7 @@ class MyPolicyList extends Component{
     return (
       <Header
         Title="My Policies"
+        Subtitle={this.props.listData.length ? `( ${this.props.listData.length} )` : null}
         LeftIcon="menu"
         LeftIconPressed={() => this.props.navigation.navigate("DrawerOpen")}
       />
