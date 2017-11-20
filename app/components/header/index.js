@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Title, Button , Left , Right, Icon, Body } from "native-base";
+import { Header, Title, Subtitle, Button , Left , Right, Icon, Body } from "native-base";
 
 const NavBar = (props) => {
   return (
@@ -13,6 +13,7 @@ const NavBar = (props) => {
       </Left>
       <Body>
         <Title>{props.Title}</Title>
+        {props.Subtitle && <Subtitle>{props.Subtitle}</Subtitle>}
       </Body>
       <Right />
     </Header>

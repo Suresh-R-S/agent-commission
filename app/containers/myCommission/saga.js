@@ -37,7 +37,9 @@ function modifyCommissionStructureToIncludeRate(listData){
       dataToReturn.push({
         name : monthItem.name,
         monthCommission : calculateMonthCommission(JSON.parse(JSON.stringify(listData[monthItem.id]))),
-        monthData : JSON.parse(JSON.stringify(listData[monthItem.id]))
+        monthData : _.filter(listData[monthItem.id],function (value) {
+                        return value!==null;
+                    })
       });
     }
   });
@@ -53,7 +55,8 @@ function modifyCommissionStructureToIncludeRate(listData){
 function calculateMonthCommission(monthData){
   let total = 0;
   _.each(monthData,(item) => {
-    total += item.rate;
+    if(item)
+      total += item.rate;
   });
   return total;
 }

@@ -14,12 +14,12 @@ const ListItem = (props) => {
         {props.ItemPressed ?
         <View>
           <Text style={styles.monthText}>{props.Data.name}</Text>
-          <Text style={styles.totalCommissionRate}>Rs. {props.Data.monthCommission}</Text>
+          <Text style={styles.totalCommissionRate}>Rs. {props.Data.monthCommission.toFixed(2)}</Text>
         </View> :
         <View>
           <Text style={styles.monthText}>Policy No. {props.Data.policy_no}</Text>
           <Text style={styles.monthText}>Policy Holder. {props.Data.policy_holder}</Text>
-          <Text style={styles.totalCommissionRate}>Rs. {props.Data.rate}</Text>
+          <Text style={styles.totalCommissionRate}>Rs. {props.Data.rate.toFixed(2)}</Text>
         </View>
         }
       </TouchableHighlight>

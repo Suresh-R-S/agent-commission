@@ -22,7 +22,7 @@ export default function(state={
 			return {...state,fetching : true};
 		}
 		case actionTypes.SAVE_POLICY_FORM_SUCCESS : {
-			return {...state,fetching : false};
+			return {...state,fetching : false,premiumModeValue:0,selectedDate:moment.utc().valueOf(),singlePremium:false};
 		}
 		case actionTypes.SAVE_POLICY_FORM_FAILURE : {
 			return {...state,fetching : false};
