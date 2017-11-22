@@ -73,7 +73,10 @@ export function* calculateAndCreateCommission(action){
             agentCommission =  action.payload.premium_amount * (action.payload.commission_rest/100);
           }
 
-          let monthDataCopy = _.has(yearObj, monthItem) ? _.clone(yearObj[monthItem]) : [];
+          let monthDataCopy = _.has(yearObj, monthItem) ? _.filter(yearObj[monthItem],function (value) {
+                          return value!==undefined;
+                      }) : [];
+
           if(monthItem == nextCommissionPush){
             let commissionPushObj = {
               policy_no : action.payload.policy_no,
