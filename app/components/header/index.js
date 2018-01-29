@@ -15,7 +15,13 @@ const NavBar = (props) => {
         <Title>{props.Title}</Title>
         {props.Subtitle && <Subtitle>{props.Subtitle}</Subtitle>}
       </Body>
-      <Right />
+      { props.RightIcon ? <Right>
+        <Button
+          transparent
+          onPress={() => props.RightIconPressed()}>
+          <Icon name={props.RightIcon} />
+        </Button>
+      </Right> : <Right/> }
     </Header>
   )
 }
