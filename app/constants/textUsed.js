@@ -1,1 +1,1 @@
-export const policyConfirmation = 'Policy details once entered can not be deleted. This is important, since the commission rates are calculated based on the input entered by the agent. Please reconfirm the the details before proceeding.'
+export const policyConfirmation = 'Please reconfirm the the details before proceeding. This is important, since the commission rates are calculated based on the input entered by the agent.'
