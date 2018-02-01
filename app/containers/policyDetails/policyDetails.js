@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View, Alert} from 'react-native';
+import {View, Alert,NetInfo} from 'react-native';
 import { Container, Icon , Body, Content, Text, Item, Label } from "native-base";
 import Header from '../../components/header';
 import Loader from '../../components/loader';
@@ -16,11 +16,30 @@ class PolicyDetails extends Component{
   deletePolicy = () => {
     Alert.alert('Delete Policy','Are you sure you want to delete this policy?',
   		[
-        { text : 'OK', onPress : () => this.props.actions.deletePolicyItem(this.props.listItem.policy_no,this.props.listItem.id) },
+        { text : 'OK', onPress : () => {
+          NetInfo.isConnected.fetch().then(isConnected => {
+            if(isConnected)
+              this.props.actions.deletePolicyItem(this.props.listItem.policy_no,this.props.listItem.id);
+            else {
+              this.callNetworkErrorFunction();
+            }
+          });
+        } },
         { text : 'Cancel'}
   		],
       { cancelable: false }
   		)
+  }
+
+  callNetworkErrorFunction = () => {
+    Alert.alert(
+      'No Internet Connection',
+      'Kindly, check your connection and try again.',
+      [
+        {text: 'OK'}
+      ],
+      { cancelable: false }
+    )
   }
 
   renderLoader = () => {
