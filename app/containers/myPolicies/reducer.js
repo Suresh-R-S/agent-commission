@@ -15,6 +15,15 @@ export default function(state={
 		case actionTypes.MY_POLICY_LIST_FAILURE : {
 			return {...state,fetching : false,data:[]};
 		}
+		case actionTypes.DELETE_POLICY_ITEM_START : {
+			return {...state,fetching : true};
+		}
+		case actionTypes.DELETE_POLICY_ITEM_SUCCESS : {
+			return {...state,fetching : false,data:action.payload};
+		}
+		case actionTypes.DELETE_POLICY_ITEM_FAILURE : {
+			return {...state,fetching : false};
+		}
 		case actionTypes.MY_POLICY_LIST_ITEM_CLICKED : {
 			return {...state,activeItem:action.payload};
 		}

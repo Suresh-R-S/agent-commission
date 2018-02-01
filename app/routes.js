@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { DrawerNavigator , StackNavigator, addNavigationHelpers } from "react-navigation";
+import { connect } from 'react-redux';
 import MyPolicies from "./containers/myPolicies";
 import PolicyDetails from "./containers/policyDetails";
 import AddPolicy from "./containers/addPolicy";
 import MyCommission from "./containers/myCommission";
 import CommissionDetails from "./containers/commissionDetails";
 import SideMenu from "./components/sideMenu";
-import { DrawerNavigator , StackNavigator } from "react-navigation";
 
 const PolicyList = StackNavigator(
   {
@@ -21,7 +22,7 @@ const CommissionSection = StackNavigator(
   }
 );
 
-const Router = DrawerNavigator(
+export const Router = DrawerNavigator(
   {
     AddPolicy : { screen: AddPolicy },
     MyPolicies: { screen: PolicyList },
@@ -32,4 +33,12 @@ const Router = DrawerNavigator(
   }
 );
 
-export default Router;
+const AppWithNavigationState = ({ dispatch, nav }) => (
+  <Router navigation={addNavigationHelpers({ dispatch, state: nav })} />
+);
+
+const mapStateToProps = state => ({
+  nav: state.nav,
+});
+
+export default connect(mapStateToProps,null)(AppWithNavigationState);
