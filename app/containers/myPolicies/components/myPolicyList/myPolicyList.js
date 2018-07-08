@@ -67,10 +67,11 @@ class MyPolicyList extends Component{
           keyExtractor={(item)=>item.id}
           showsVerticalScrollIndicator = {false}
           initialNumToRender = {4}
-          renderItem = {({item}) =>
+          renderItem = {({item, index}) =>
             <ListItem
               ItemPressed = {this.listItemPressed}
               Data={item}
+              Index={index}
             />
           }
           />

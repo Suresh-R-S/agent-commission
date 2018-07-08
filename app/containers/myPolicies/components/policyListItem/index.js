@@ -15,7 +15,7 @@ const ListItem = (props) => {
       <TouchableHighlight underlayColor="transparent" style={styles.listItemContainer} onPress={() => props.ItemPressed(props.Data)}>
         <View>
           <View style={styles.noDateContainer}>
-          <Text style={styles.policyNo}>Policy No. {props.Data.policy_no}</Text>
+          <Text style={styles.policyNo}>Sl No. {props.Index + 1}</Text>
           <Text style={styles.policyDate}>{moment(props.Data.date_of_joining).format('DD/MM/YYYY')}</Text>
           </View>
           <Text style={styles.policyName}>{props.Data.policy_holder}</Text>
